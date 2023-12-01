@@ -1,0 +1,12 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+     Note right of browser: The client type the new note and click the save button
+
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+    activate server
+    server-->>browser: HTTP 201 Created {"message":"note created"}
+    deactivate server
+
+    Note right of browser: The browser executes the callback function that renders the notes
