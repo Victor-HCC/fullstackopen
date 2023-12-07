@@ -9,10 +9,29 @@ const Button = (props) => {
   )
 }
 
-const Statistics = (props) => {
+const Statistic = (props) => {
   return (
     <div>
       {props.feedback} {props.count}
+    </div>
+  )
+}
+
+const Statistics = (props) => {
+  
+  const [good, neutral, bad] = props.states;
+  const total = good + bad + neutral;
+  const average = (good - bad) / total;
+
+  return (
+    <div>
+      <h2>Statistics</h2>
+      <Statistic feedback='good' count={good} />
+      <Statistic feedback='neutral' count={neutral} />
+      <Statistic feedback='bad' count={bad} />
+      <span>all {total}</span><br />
+      <span>average {average}</span><br />
+      <span>positive {(good / total) * 100}%</span>
     </div>
   )
 }
@@ -38,9 +57,6 @@ const App = () => {
     setBad(cont)
   }
 
-  const total = good + bad + neutral;
-  const average = (good - bad) / total;
-
   return (
     <div>
       <h1>Give feedback</h1>
@@ -50,13 +66,7 @@ const App = () => {
         <Button feedback='bad' handler={buttonBadHandler} />
       </div>
       
-      <h2>Statistics</h2>
-      <Statistics feedback='good' count={good} />
-      <Statistics feedback='neutral' count={neutral} />
-      <Statistics feedback='bad' count={bad} />
-      <p>all {total}</p>
-      <p>average {average}</p>
-      <p>positive {(good / total) * 100}%</p>
+      <Statistics states={[good, neutral, bad]} />
     </div>
   )
 }
