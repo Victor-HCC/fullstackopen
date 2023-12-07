@@ -9,7 +9,7 @@ const Button = (props) => {
   )
 }
 
-const Statistic = (props) => {
+const StatisticLine = (props) => {
   return (
     <div>
       {props.feedback} {props.count}
@@ -28,9 +28,9 @@ const Statistics = (props) => {
       {(good || neutral || bad) ? (
         <div>
           <h2>Statistics</h2>
-          <Statistic feedback='good' count={good} />
-          <Statistic feedback='neutral' count={neutral} />
-          <Statistic feedback='bad' count={bad} />
+          <StatisticLine feedback='good' count={good} />
+          <StatisticLine feedback='neutral' count={neutral} />
+          <StatisticLine feedback='bad' count={bad} />
           <span>all {total}</span><br />
           <span>average {average}</span><br />
         <span>positive {(good / total) * 100}%</span>
