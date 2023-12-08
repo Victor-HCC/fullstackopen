@@ -44,8 +44,23 @@ const App = () => {
     setVotes(newVotes);
   }
 
+  const maxVotes = (obj) => {
+    let max = obj[0]
+    let reference = 0
+    for(let key in obj) {
+      if(obj[key] > max) {
+        max = obj[key]
+        reference = key
+      }
+    }
+    return reference;
+  }
+
+  const max = maxVotes(votes)
+
   return (
     <div>
+      <h2>Anecdote of the day</h2>
       {anecdotes[selected]}
       <br />
       <span>has {votes[selected]} votes</span>
@@ -54,6 +69,10 @@ const App = () => {
         <Button text='next anecdote' handler={nextButtonHandler} />
       </div>
       
+      <h2>Anecdote with most votes</h2>
+      {anecdotes[max]}
+      <br />
+      <span>has {votes[max]} votes</span>
     </div>
   )
 }
