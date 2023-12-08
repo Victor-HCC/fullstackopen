@@ -14,13 +14,12 @@ const Part = ({ part, exercises }) => {
 
 const Content = ({ parts }) => {
 
-  let sum = 0
-  parts.forEach(part => {sum += part.exercises})
+  const total = parts.reduce((sum, part) => sum + part.exercises, 0)
 
   return (
     <div>
       {parts.map(part => <Part key={part.id} part={part.name} exercises={part.exercises}/>)}
-      <p><b>total of {sum} exercises</b></p>
+      <p><b>total of {total} exercises</b></p>
     </div>
   )
 }
