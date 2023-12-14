@@ -8,8 +8,14 @@ const App = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    const exist = persons.find(person => person.name === newName)
+    if(exist) {
+      alert(`${newName} is already added to the phonebook`)
+      return;
+    }
     const newPersons = persons.concat({name: newName})
     setPersons(newPersons)
+    setNewName('')
   }
 
   const handleInput = (e) => {
@@ -21,7 +27,7 @@ const App = () => {
       <h2>Phonebook</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          name: <input onChange={handleInput} />
+          name: <input onChange={handleInput} value={newName} />
         </div>
         <div>
           <button type="submit">add</button>
