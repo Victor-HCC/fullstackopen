@@ -1,19 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import Filter from './components/Filter'
 import Form from './components/Form'
 import Persons from './components/Persons'
 
 const App = () => {
-  const [ persons, setPersons ] = useState([
-    { name: 'Arto Hellas', number: '040-123456' },
-    { name: 'Ada Lovelace', number: '39-44-5323523' },
-    { name: 'Dan Abramov', number: '12-43-234345' },
-    { name: 'Mary Poppendieck', number: '39-23-6423122' }
-  ]) 
+  const [ persons, setPersons ] = useState([]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, SetNewNumber ] = useState('')
   const [ filtered, setFiltered ] = useState([])
   const [ filter, setFilter ] = useState(false)
+  const [ filterWord, setFilterWord ] = useState('')
+
+  useEffect(() => {
+    axios.get('http://localhost:3002/persons')
+      .then(res => setPersons(res.data))
+  }, [])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -47,10 +49,25 @@ const App = () => {
     }
   }
 
+  useEffect(() => {
+    if(filterWord.length > 0) {
+      setFiltered(persons.filter(person => person.name.toLowerCase().includes(filterWord)))
+      setFilter(true)
+    } else {
+      setFiltered([])
+      setFilter(false)
+    }
+  }, [filterWord])
+
+  const handleFilter2 = (e) => {
+    const value = e.target.value.toLowerCase().trim()
+    setFilterWord(value)
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
-      <Filter handler={handleFilter} />
+      <Filter handler={handleFilter2} />
       
       <h3>Add a new</h3>
       <Form submitHandler={handleSubmit} inputNameHandler={handleInputName} inputNumberHandler={handleInputNumber} name={newName} number={newNumber} />
