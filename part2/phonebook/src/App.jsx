@@ -3,7 +3,7 @@ import axios from 'axios'
 import Filter from './components/Filter'
 import Form from './components/Form'
 import Persons from './components/Persons'
-import { create } from './services/personsServices'
+import { create, getAll } from './services/personsServices'
 
 const App = () => {
   const [ persons, setPersons ] = useState([]) 
@@ -14,8 +14,7 @@ const App = () => {
   const [ filterWord, setFilterWord ] = useState('')
 
   useEffect(() => {
-    axios.get('http://localhost:3002/persons')
-      .then(res => setPersons(res.data))
+    getAll().then(persons => setPersons(persons))
   }, [])
 
   const handleSubmit = (e) => {
