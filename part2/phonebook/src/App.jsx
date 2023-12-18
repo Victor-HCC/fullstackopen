@@ -3,6 +3,7 @@ import axios from 'axios'
 import Filter from './components/Filter'
 import Form from './components/Form'
 import Persons from './components/Persons'
+import { create } from './services/personsServices'
 
 const App = () => {
   const [ persons, setPersons ] = useState([]) 
@@ -19,13 +20,18 @@ const App = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+
     const exist = persons.find(person => person.name.toLowerCase() === newName.toLowerCase())
     if(exist) {
       alert(`${newName} is already added to the phonebook`)
       return;
     }
-    const newPersons = persons.concat({ name: newName, number: newNumber })
-    setPersons(newPersons)
+
+    create({ name: newName, number: newNumber })
+     .then(person => {
+      setPersons(persons.concat(person))
+     })
+    
     setNewName('')
     SetNewNumber('')
   }
