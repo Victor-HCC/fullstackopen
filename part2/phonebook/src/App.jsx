@@ -78,7 +78,7 @@ const App = () => {
       <Form submitHandler={handleSubmit} inputNameHandler={handleInputName} inputNumberHandler={handleInputNumber} name={newName} number={newNumber} />
 
       <h2>Numbers</h2>
-      <Persons filter={filter} filtered={filtered} persons={persons} />
+      <Persons filter={filter} filtered={filtered} persons={persons} setPersons={setPersons} />
     </div>
   )
 }
