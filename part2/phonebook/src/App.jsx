@@ -3,7 +3,7 @@ import axios from 'axios'
 import Filter from './components/Filter'
 import Form from './components/Form'
 import Persons from './components/Persons'
-import { create, getAll } from './services/personsServices'
+import { create, getAll, updateById } from './services/personsServices'
 
 const App = () => {
   const [ persons, setPersons ] = useState([]) 
@@ -22,7 +22,14 @@ const App = () => {
 
     const exist = persons.find(person => person.name.toLowerCase() === newName.toLowerCase())
     if(exist) {
-      alert(`${newName} is already added to the phonebook`)
+      if(window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)) {
+        updateById(exist.id, { name: exist.name, number: newNumber })
+          .then(res => {
+            setPersons(persons.map(person => person.id !== exist.id ? person : res))
+          })
+        setNewName('')
+        SetNewNumber('')
+      }
       return;
     }
 
