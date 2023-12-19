@@ -28,13 +28,19 @@ const App = () => {
         updateById(exist.id, { name: exist.name, number: newNumber })
           .then(res => {
             setPersons(persons.map(person => person.id !== exist.id ? person : res))
+            setMessage({text:`${exist.name}'s number was updated`, type: 'success'})
+            setNewName('')
+            SetNewNumber('')
+            setTimeout(() => {
+              setMessage(null)
+            }, 4000)
           })
-        setMessage({text:`${exist.name}'s number was updated`, type: 'success'})
-        setNewName('')
-        SetNewNumber('')
-        setTimeout(() => {
-          setMessage(null)
-        }, 4000)
+          .catch(error => {
+            setMessage({text:`Information of ${exist.name} has already been removed from server`, type: 'error'})
+            setTimeout(() => {
+              setMessage(null)
+            }, 4000)
+          })
       }
       return;
     }
