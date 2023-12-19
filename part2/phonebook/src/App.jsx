@@ -4,6 +4,7 @@ import Filter from './components/Filter'
 import Form from './components/Form'
 import Persons from './components/Persons'
 import { create, getAll, updateById } from './services/personsServices'
+import Notification from './components/Notification'
 
 const App = () => {
   const [ persons, setPersons ] = useState([]) 
@@ -12,6 +13,7 @@ const App = () => {
   const [ filtered, setFiltered ] = useState([])
   const [ filter, setFilter ] = useState(false)
   const [ filterWord, setFilterWord ] = useState('')
+  const [ message, setMessage ] = useState(null)
 
   useEffect(() => {
     getAll().then(persons => setPersons(persons))
@@ -27,8 +29,12 @@ const App = () => {
           .then(res => {
             setPersons(persons.map(person => person.id !== exist.id ? person : res))
           })
+        setMessage({text:`${exist.name}'s number was updated`, type: 'success'})
         setNewName('')
         SetNewNumber('')
+        setTimeout(() => {
+          setMessage(null)
+        }, 4000)
       }
       return;
     }
@@ -38,8 +44,12 @@ const App = () => {
       setPersons(persons.concat(person))
      })
     
+    setMessage({text:`Added ${newName}`, type: 'success'})
     setNewName('')
     SetNewNumber('')
+    setTimeout(() => {
+      setMessage(null)
+    }, 4000)
   }
 
   const handleInputName = (e) => {
@@ -78,6 +88,7 @@ const App = () => {
 
   return (
     <div>
+      {message && <Notification message={message.text} type={message.type}/>}
       <h2>Phonebook</h2>
       <Filter handler={handleFilter2} />
       
