@@ -1,3 +1,5 @@
+const _ = require('lodash')
+
 const dummy = (blogs) => {
   if(Array.isArray(blogs)) return 1
 }
@@ -20,9 +22,23 @@ const favoriteBlog = (blogs) => {
   }, blogs[0])
 }
 
+const mostBlogs = (blogs) => {
+  if(_.isEmpty(blogs)) return null
+
+  const blogsByAuthor = _.groupBy(blogs, 'author')
+
+  const authorWithMostBlogs = _.maxBy(Object.keys(blogsByAuthor), author => blogsByAuthor[author].length)
+
+  return {
+    author: authorWithMostBlogs,
+    blogs: blogsByAuthor[authorWithMostBlogs].length
+  }
+}
+
 // eslint-disable-next-line no-undef
 module.exports = {
   dummy,
   totalLikes,
-  favoriteBlog
+  favoriteBlog,
+  mostBlogs
 }
